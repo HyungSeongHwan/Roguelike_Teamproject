@@ -21,10 +21,14 @@ public class PlayerController : MonoBehaviour
     float tickDown;
     float delayDown;
 
+    bool isGetItem;
+    ItemObj CollItem;
+
     private void Update()
     {
         Delay_Update();
         Player_Move();
+        GainItem();
     }
 
     public void Init_Ready()
@@ -116,6 +120,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void GainItem()
+    {
+        if (!isGetItem) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            ItemMng.Ins.GainNewItem(CollItem);
+            CollItem.gameObject.SetActive(false);
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Platform")
@@ -125,6 +140,24 @@ public class PlayerController : MonoBehaviour
         else if (collision.gameObject.tag == "EndPlatform")
         {
             CollPlatForm();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Item")
+        {
+            isGetItem = true;
+
+            CollItem = collision.GetComponent<ItemObj>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Item")
+        {
+            isGetItem = false;
         }
     }
 

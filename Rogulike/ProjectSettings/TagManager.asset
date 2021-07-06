@@ -7,6 +7,8 @@ TagManager:
   - Platform
   - EndPlatform
   - Enemy
+  - Item
+  - DIP
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Player
   - Platform
   - Enemy
-  - 
+  - Item
   - 
   - 
   - 

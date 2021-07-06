@@ -15,7 +15,7 @@ public class GameUI : MonoBehaviour
         for (int i = 0; i < Enemylist.Count; ++i) Enemylist[i].Init_Ready(player.transform);
     }
 
-    public void shorDistanceChekc()
+    public void shorDistanceCheck()
     {
 
     }
