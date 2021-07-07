@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Animator PlayerAnimator;
+
     public enum Player_Direction { Up, Down, Left, Right };
     public Player_Direction direction = Player_Direction.Left;
     Player_Direction tempDirection = Player_Direction.Left;
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
         SetIsMove(true);
         SetIsJump(true);
+
+        PlayerAnimator.SetFloat("MoveSpeed", 0.0f);
     }
 
     public void SetIsMove(bool bMove)
@@ -74,6 +78,9 @@ public class PlayerController : MonoBehaviour
 
         if (xValue > 0.0f) SetDirection(Player_Direction.Right);
         else if (xValue < 0.0f) SetDirection(Player_Direction.Left);
+
+        float tempValue = Mathf.Abs(xValue);
+        PlayerAnimator.SetFloat("MoveSpeed", tempValue);
 
         transform.position += (transform.right * xValue * moveSpeed * Time.deltaTime);
 
