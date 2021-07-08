@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         moveSpeed = 5.0f;
-        jumpForce = 6.0f;
+        jumpForce = 5.5f;
 
         tickDown = 0;
         delayDown = 0.5f;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     public void SetIsJump(bool bJump)
     { isJump = bJump; }
 
-    public void SetDirection(Player_Direction _direction)
+    public void SetDirection(Player_Direction _direction) // 나 이거 왜 만들었더라
     {
         if (direction == _direction) return;
         if (!isJump) return;
@@ -66,15 +66,13 @@ public class PlayerController : MonoBehaviour
 
         if (direction == Player_Direction.Right) spriteRenderer.flipX = false;
         else if (direction == Player_Direction.Left) spriteRenderer.flipX = true;
-
-        // 나중에 애니메이션 추가
     }
 
     private void Player_Move()
     {
         if (!isMove) return;
 
-        float xValue = Input.GetAxis("Horizontal");
+        float xValue = Input.GetAxisRaw("Horizontal");
 
         if (xValue > 0.0f) SetDirection(Player_Direction.Right);
         else if (xValue < 0.0f) SetDirection(Player_Direction.Left);
@@ -94,8 +92,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            PlayerAnimator.SetTrigger("JumpTrigger");
+
             tempDirection = direction;
             SetDirection(Player_Direction.Up);
+
             boxCollider.isTrigger = true;
             tickDown = 0;
 
@@ -170,6 +171,8 @@ public class PlayerController : MonoBehaviour
 
     private void CollPlatForm()
     {
+        PlayerAnimator.SetTrigger("LandingTrigger"); // TODO 이거 딜레이 걸어주자
+
         SetDirection(tempDirection);
         SetIsJump(true);
     }
